@@ -1,6 +1,6 @@
 #!/bin/bash
 
-file=$1 #This will be either .gitconfig/.zshrc/.prettierrc/.vimrc
+file=$1
 endpoint="https://api.github.com/repos/ritwikvd/dotfiles/contents/$file"
 encoded_content=$(base64 ~/$file)
 file_sha=$(curl -s $endpoint | grep sha | cut -d':' -f 2 | tr -d ' ,"')
