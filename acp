@@ -1,0 +1,37 @@
+#! /bin/bash
+
+function read_and_commit {
+    read -rp "Commit Message: " MESSAGE
+    git c -m "$MESSAGE"
+}
+
+second_flag=$(echo $1 | tr -d "\-i")
+
+if ! (test -z $second_flag || test $second_flag = o || test $second_flag = n); then
+    echo 'Unknown flag '"$second_flag"'; use -n or -o'
+    exit
+fi
+
+if echo $1 | rg i > /dev/null; then
+    echo Adding all to index
+    git add .
+fi
+
+case $second_flag in
+    n)
+        echo Amending HEAD with no edit
+        git can
+        git p -f
+        ;;
+    o)
+        read_and_commit
+        echo Pushing and setting upstream to origin
+        git puo $(git rev-parse --abbrev-ref HEAD)
+        ;;
+    *)
+        read_and_commit
+        echo Pushing
+        git p
+        ;;
+esac
+
