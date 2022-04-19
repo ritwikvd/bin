@@ -1,0 +1,8 @@
+#! /bin/bash
+
+count=0
+read -rp "Regex: " PATTERN
+BRANCH_TO_DELETE=$(git b | rg $PATTERN | tr -d " " | tr "\n" " ")
+
+read -rp "Confirm $BRANCH_TO_DELETE (y|!y): " CONFIRM
+test $CONFIRM = y && git bd $BRANCH_TO_DELETE

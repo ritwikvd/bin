@@ -1,0 +1,12 @@
+#! /bin/bash
+
+read -rp "Branch Name: " BRANCH
+read -rp "Commit Message: " MESSAGE
+read -rp "Delete Branch? (y|!y): " DELETE
+
+git swc $BRANCH
+git add .
+git c -m "$MESSAGE"
+git puo $BRANCH
+git sw -
+test $DELETE = y && git bd $BRANCH
