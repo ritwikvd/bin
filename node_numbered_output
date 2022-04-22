@@ -1,0 +1,8 @@
+#! /opt/homebrew/bin/node
+
+let count = 0;
+const stdin = process.openStdin();
+let data = "";
+
+stdin.on('data', chunk => data += chunk);
+stdin.on('end', () => process.stdout.write(data.trim().replace(/(\n|$)/g, (_, group) => `:${++count}${group}`).replaceAll("\h", "")));
