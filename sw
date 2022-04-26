@@ -1,5 +1,10 @@
 #! /bin/bash
 
+if test $1 = "-"; then
+    git switch -
+    exit
+fi
+
 read -rp "Regex: " PATTERN
 FORMATTED_BRANCHES=$(git b -a | tr -d "* " | rg $PATTERN | node_numbered_output)
 
