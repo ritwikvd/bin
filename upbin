@@ -1,0 +1,10 @@
+#!/bin/bash
+
+file=$1
+endpoint="https://api.github.com/repos/ritwikvd/bin/contents/$file"
+encoded_content=$(base64 /usr/local/bin/$file)
+file_sha=$(curl -s $endpoint | grep sha | cut -d':' -f 2 | tr -d ' ,"')
+
+status_code=$(curl -v -o ~/log -w "%{http_code}" -X PUT -H "Accept: application/vnd.github.v3+json" -H "Authorization: bearer $DOTFILES_TOKEN" $endpoint -d '{"message": "Synchronising from upbin", "sha": "'$file_sha'", "content": "'$encoded_content'"}' | grep -o "\d*")
+
+osascript -e 'display notification "Pushed to bin with response: '$status_code'" with title "Autocmd Update: '$file'" sound name "Submarine"'
