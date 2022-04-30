@@ -2,7 +2,7 @@
 
 git b
 
-read -rp $"\n""Regex: " PATTERN
+read -rp $'\n'"Regex: " PATTERN
 
 FORMATTED_BRANCHES=$(git b | tr -d "* " | rg $PATTERN | node_numbered_output)
 
