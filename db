@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 read -rp "Regex: " PATTERN
 BRANCH_TO_DELETE=$(git b | rg $PATTERN | tr -d " " | tr "\n" " ")
