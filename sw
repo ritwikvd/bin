@@ -7,7 +7,8 @@ fi
 
 echo $(git b -a)
 
-read -rp "$'\n'"Regex: " PATTERN
+read -rp $'\n'"Regex: " PATTERN
+
 FORMATTED_BRANCHES=$(git b -a | tr -d "* " | rg $PATTERN | node_numbered_output)
 
 read -rp "Select: "$'\n'"$FORMATTED_BRANCHES"$'\n' SELECTED_NUMBER
