@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 if test "$1" = "-"; then
     git switch -
