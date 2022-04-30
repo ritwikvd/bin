@@ -5,7 +5,7 @@ if test "$1" = "-"; then
     exit
 fi
 
-echo $(git b -a)
+echo $(git b -a | tr -d "* " | tr " " "\n")
 
 read -rp $'\n'"Regex: " PATTERN
 
