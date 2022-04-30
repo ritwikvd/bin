@@ -1,4 +1,4 @@
-#! /opt/homebrew/bin/node
+#!/opt/homebrew/bin/node
 
 let count = 0;
 const stdin = process.openStdin();
