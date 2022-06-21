@@ -5,6 +5,8 @@ if (echo "$1" | rg ritwik); then
 else
     REPO=bin
 fi
+echo this is the repo
+echo $REPO
 
 if test $REPO==bin; then
     FILE=$(echo $1 | rg -o "[^/]*$")
