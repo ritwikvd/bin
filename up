@@ -6,7 +6,7 @@ else
     REPO=bin
 fi
 
-if test $REPO=bin; then
+if (test $REPO = bin); then
     FILE=$(echo $1 | rg -o "[^/]*$")
     echo inside bin
 else
