@@ -6,10 +6,10 @@ else
     REPO=bin
 fi
 
-if test $(echo $1 | rg "/lua/"); then
-    FILE=$(echo $1 | rg -o "lua/.*$")
-else
+if test $REPO==bin; then
     FILE=$(echo $1 | rg -o "[^/]*$")
+else
+    FILE=$(echo $1 | sed -e "s/\/Users\/ritwik\///")
 fi
 
 ENDPOINT="https://api.github.com/repos/ritwikvd/$REPO/contents/$FILE"
