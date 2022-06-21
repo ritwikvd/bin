@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if test $(echo "$1" | rg ritwik > /dev/null); then
+if (echo "$1" | rg ritwik); then
     REPO=dotfiles
 else
     REPO=bin
