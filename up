@@ -8,8 +8,10 @@ fi
 
 if test $REPO==bin; then
     FILE=$(echo $1 | rg -o "[^/]*$")
+    echo inside bin
 else
     FILE=$(echo $1 | sed -e "s/\/Users\/ritwik\///")
+    echo inside dotfiles
 fi
 
 ENDPOINT="https://api.github.com/repos/ritwikvd/$REPO/contents/$FILE"
