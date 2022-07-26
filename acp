@@ -5,6 +5,7 @@ function read_and_commit {
     git c -m "$MESSAGE"
 }
 
+echo $1
 com_push_flag=$(echo $1 | tr -d "\-a")
 echo $com_push_flag
 
