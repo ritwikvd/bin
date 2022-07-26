@@ -5,12 +5,10 @@ function read_and_commit {
     git c -m "$MESSAGE"
 }
 
-echo $1
 com_push_flag=$(echo $1 | tr -d "\-a")
-echo $com_push_flag
 
-if ! (test -z $com_push_flag || test $com_push_flag = o || test $com_push_flag = n); then
-    echo 'Unknown flag '"$com_push_flag"'; use -n or -o'
+if ! (test -z $com_push_flag || test $com_push_flag = o || test $com_push_flag = f); then
+    echo 'Unknown flag '"$com_push_flag"'; use -f or -o'
     exit
 fi
 
@@ -19,10 +17,8 @@ if echo $1 | rg a > /dev/null; then
     git add .
 fi
 
-echo $com_push_flag
-
 case $com_push_flag in
-    n)
+    f)
         echo Amending HEAD with no edit
         git can
         git p -f
