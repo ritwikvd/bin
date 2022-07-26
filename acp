@@ -6,6 +6,7 @@ function read_and_commit {
 }
 
 com_push_flag=$(echo $1 | tr -d "\-a")
+echo $com_push_flag
 
 if ! (test -z $com_push_flag || test $com_push_flag = o || test $com_push_flag = n); then
     echo 'Unknown flag '"$com_push_flag"'; use -n or -o'
