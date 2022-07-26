@@ -17,6 +17,8 @@ if echo $1 | rg a > /dev/null; then
     git add .
 fi
 
+echo $com_push_flag
+
 case $com_push_flag in
     n)
         echo Amending HEAD with no edit
