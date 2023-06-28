@@ -1,0 +1,15 @@
+#! /bin/bash
+
+if [ -n "$1" -o -n "$2" ]; then
+    echo "This script requires 2 arguments: the action name and the object name"
+    exit 1
+fi
+
+case "$1" in
+
+    get) aws s3api get-object --bucket vault-ritwikvd --key "$2" ;;
+    put) aws s3api put-object --bucket vault-ritwikvd --key "$2" --body "$2" ;;
+    list) aws s3api list-objects --bucket vault-ritwikvd ;;
+
+esac
+
