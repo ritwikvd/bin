@@ -1,6 +1,5 @@
 #! /bin/bash
 
-# if [ -z "$1" -o -z "$2" ] && [ $1 != "list" ];
 if [ "$1" != "list" -a -z "$2" ]
 then
     echo "This script requires 2 arguments: the action name and the object name."
