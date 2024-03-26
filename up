@@ -13,7 +13,7 @@ else
 fi
 
 ENDPOINT="https://api.github.com/repos/ritwikvd/$REPO/contents/$FILE"
-ENCODED_CONTENT=$(base64 $1)
+ENCODED_CONTENT=$(base64 -i $1)
 FILE_SHA=$(curl -s $ENDPOINT | rg sha | cut -d':' -f 2 | tr -d ' ,"')
 
 STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X PUT -H "Accept: application/vnd.github.v3+json" -H "Authorization: bearer $DOTFILES_TOKEN" $ENDPOINT -d '{"message": "Synchronising from up", "sha": "'$FILE_SHA'", "content": "'$ENCODED_CONTENT'"}' | rg -o "\d*")
