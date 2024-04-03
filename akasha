@@ -1,0 +1,58 @@
+#! /bin/zsh
+#
+# This script runs every 30 mins or whatever duration is specified in "crontab -l".
+#
+# Its purpose is to push a notification when the Akasha Pizza Heaven store is open for orders.
+#
+# V1.0 Algorithm START
+# 1. Validate that the store has not been confirmed open for the day. 
+# 2. Query DotPe endpoint to retrieve store config.
+# 3. storeStatusFlag == true?
+# 4. Notify.
+# 5. Make entry into log for subsequent validation checks.
+# END
+#
+# V2.0 Algorithm START
+# 1. get store status response.isStoreOpen.delivery
+# 2. check whether status is true
+# 3. check whether store has been confirmed open and logged for the day
+# 4. if store open AND store logged exit
+# 5. if store closed AND store not logged exit
+# 6. if store open AND store not logged notify OPEN and log
+# 7. if store closed AND store logged notify CLOSED and clear log so that step 6 can run
+# END
+#
+# akasha.log will be used for validation.
+# This file will be overwritten daily since
+# there's no need to maintain a log and the
+# validation is a simple daily check for the date.
+#
+# grep has been used in place of the malfunctioning rg.
+# Potential RCA: https://github.com/BurntSushi/ripgrep/discussions/1979.
+
+# V1.0 START
+# grep $(date "+%Y-%m-%d") /Users/ritwik/logs/akasha.log > /dev/null 2>&1 && exit
+#
+# curl -s "https://api.dotpe.in/api/merchant/external/cstore/1?referer=akashapizzaheaven&serviceSubtype=delivery" | \
+#     [[ $(grep -o "storeStatusFlag[^,]*") =~ "true" ]] && \
+#     osascript -e 'display notification "OPEN" with title "Akasha Pizza Heaven" sound name "Submarine"' && \
+#     echo $(date "+%Y-%m-%d") > /Users/ritwik/logs/akasha.log
+# END
+#
+# V2.0
+
+STORE_STATUS_FLAG=$(curl -s "https://api.dotpe.in/api/merchant/external/cstore/1?referer=akashapizzaheaven&serviceSubtype=delivery" | grep -o "delivery[^,]*")
+IS_STORE_OPEN=$([[ $STORE_STATUS_FLAG =~ "true" ]] && echo true || echo false)
+IS_STORE_LOGGED=$(grep $(date "+%Y-%m-%d") /Users/ritwik/logs/akasha.log > /dev/null 2>&1 && echo true || echo false)
+
+if $IS_STORE_OPEN && $IS_STORE_LOGGED; then;
+elif ! $IS_STORE_OPEN && ! $IS_STORE_LOGGED; then;
+
+elif $IS_STORE_OPEN && ! $IS_STORE_LOGGED; then
+    osascript -e 'display notification "OPEN" with title "Akasha Pizza Heaven" sound name "Submarine"' &&  echo $(date "+%Y-%m-%d") > /Users/ritwik/logs/akasha.log
+
+elif ! $IS_STORE_OPEN && $IS_STORE_LOGGED; then
+    osascript -e 'display notification "CLOSED" with title "Akasha Pizza Heaven" sound name "Submarine"' &&  echo > /Users/ritwik/logs/akasha.log
+fi
+
+return 0
