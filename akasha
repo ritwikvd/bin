@@ -42,9 +42,8 @@
 # egrep in V2.0 for lazy match
 # V2.0
 
-STORE_STATUS_FLAG=$(curl -s "https://api.dotpe.in/api/merchant/external/cstore/1?referer=akashapizzaheaven&serviceSubtype=delivery" | egrep -o \
+STORE_STATUS_FLAG=$(curl -s "https://api.dotpe.in/api/merchant/external/cstore/1?referer=akashapizzaheaven&serviceSubtype=delivery" | egrep -o"isStoreOpen.*?delivery[^,]*")
 # "storeStatusFlag[^,]*")
-"isStoreOpen.*?delivery[^,]*")
 
 IS_STORE_OPEN=$([[ $STORE_STATUS_FLAG =~ "true" ]] && echo true || echo false)
 IS_STORE_LOGGED=$(grep $(date "+%Y-%m-%d") /Users/ritwik/logs/akasha.log > /dev/null 2>&1 && echo true || echo false)
