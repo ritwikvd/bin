@@ -40,6 +40,7 @@
 # END
 #
 # egrep in V2.0 for lazy match
+#
 # V2.0
 
 STORE_STATUS_FLAG=$(curl -s "https://api.dotpe.in/api/merchant/external/cstore/1?referer=akashapizzaheaven&serviceSubtype=delivery" | egrep -o "storeStatusFlag[^,]*")
