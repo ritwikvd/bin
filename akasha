@@ -45,6 +45,7 @@
 
 RESPONSE=$(curl -s "https://api.dotpe.in/api/merchant/external/cstore/1?referer=akashapizzaheaven&serviceSubtype=delivery")
 OPEN_FLAGS=$(echo $RESPONSE | egrep -o "isStoreOpen.*?delivery[^,]*")$(echo $RESPONSE | egrep -o  "storeStatusFlag[^,]*")
+echo $OPEN_FLAGS
 
 IS_STORE_OPEN=$([[ $OPEN_FLAGS =~ "false" ]] && echo false || echo true)
 IS_STORE_LOGGED=$(grep $(date "+%Y-%m-%d") /Users/ritwik/logs/akasha.log > /dev/null 2>&1 && echo true || echo false)
